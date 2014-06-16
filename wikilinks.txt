@@ -1,0 +1,28 @@
+MODULE	WIKI
+grid_calculus	http://sourceforge.net/apps/trac/saga-gis/wiki/Grid - Calculus module library
+grid_tools	http://sourceforge.net/apps/trac/saga-gis/wiki/Grid - Tools module library
+ihacres	http://sourceforge.net/apps/trac/saga-gis/wiki/Module Library Hydrology
+ta_morphometry	http://sourceforge.net/apps/trac/saga-gis/wiki/Terrain Analysis - Morphometry module library
+ta_preprocessor	http://sourceforge.net/apps/trac/saga-gis/wiki/Terrain Analysis - Preprocessing module library
+contrib_a_perego_0	http://sourceforge.net/apps/trac/saga-gis/wiki/contrib_a_perego_0
+contrib_a_perego_3	http://sourceforge.net/apps/trac/saga-gis/wiki/contrib_a_perego_3
+contrib_a_perego_4	http://sourceforge.net/apps/trac/saga-gis/wiki/contrib_a_perego_4
+contrib_perego_0	http://sourceforge.net/apps/trac/saga-gis/wiki/contrib_a_perego_0
+contrib_perego_3	http://sourceforge.net/apps/trac/saga-gis/wiki/contrib_a_perego_3
+contrib_perego_4	http://sourceforge.net/apps/trac/saga-gis/wiki/contrib_a_perego_4
+geostatistics_grid_4	http://sourceforge.net/apps/trac/saga-gis/wiki/geostatistics_grid_4
+geostatistics_regression_0	http://sourceforge.net/apps/trac/saga-gis/wiki/geostatistics_regression_0
+geostatistics_regression_1	http://sourceforge.net/apps/trac/saga-gis/wiki/geostatistics_regression_1
+grid_filter_0	http://sourceforge.net/apps/trac/saga-gis/wiki/grid_filter_0
+grid_filter_1	http://sourceforge.net/apps/trac/saga-gis/wiki/grid_filter_1
+grid_filter_2	http://sourceforge.net/apps/trac/saga-gis/wiki/grid_filter_2
+grid_filter_4	http://sourceforge.net/apps/trac/saga-gis/wiki/grid_filter_4
+grid_filter_5	http://sourceforge.net/apps/trac/saga-gis/wiki/grid_filter_5
+grid_gridding_1	http://sourceforge.net/apps/trac/saga-gis/wiki/grid_gridding_1
+imagery_segmentation_0	http://sourceforge.net/apps/trac/saga-gis/wiki/imagery_segmentation_0
+io_grid_1	http://sourceforge.net/apps/trac/saga-gis/wiki/io_grid_1
+opencv_3	http://sourceforge.net/apps/trac/saga-gis/wiki/opencv_3
+pointcloud_tools_8	http://sourceforge.net/apps/trac/saga-gis/wiki/pointcloud_tools_8
+ta_morphometry_1	http://sourceforge.net/apps/trac/saga-gis/wiki/ta_morphometry_1
+ta_morphometry_4	http://sourceforge.net/apps/trac/saga-gis/wiki/ta_morphometry_4
+
