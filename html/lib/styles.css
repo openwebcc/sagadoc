@@ -1,0 +1,90 @@
+/****
+*
+* styles for SAGA-GIS docs
+*
+****/
+body {
+    font-family: "DejaVu Sans", "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
+    max-width: 960px;
+    margin: auto;
+    background-color: #eee;
+    box-shadow: 3px 3px 10px #666;
+}
+a:link {
+    color: navy;
+    text-decoration: none;
+}
+a:visited {
+    color: green;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+main, header {
+    display: block;
+    padding: 5px 15px;
+    background-color: #fff;
+}
+nav {
+    padding: 5px 0px;
+    text-align: right;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+nav span {
+    display: inline-block;
+    padding: 5px;
+    background-color: #fff;
+    box-shadow: 1px 1px 3px #666;
+}
+nav span.a2z {
+    float: left;
+}
+
+a:visited {
+    color: navy;
+}
+.logo {
+    float: right;
+}
+table {
+    margin: auto;
+    border: 1px solid #ccc;
+}
+th, td {
+    vertical-align: top;
+    padding: 2px;
+    border: 1px solid #ccc;
+}
+th {
+    text-align: left;
+}
+td.center {
+    text-align: center;
+}
+.labelSection {
+    font-weight: bold;
+}
+.menuPath {
+    font-size: 0.8em;
+}
+.usage {
+    white-space: pre-wrap;
+}
+.sortable th {
+    cursor: pointer;
+}
+.sorted-asc:after {
+    content: " \2193";
+}
+.sorted-desc:after {
+    content: " \2191";
+}
+footer {
+    display: block;
+    max-width: 960px;
+    margin: auto;
+    text-align: right;
+    padding-top: 10px;
+}
