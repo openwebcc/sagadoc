@@ -357,21 +357,31 @@ for fname in os.listdir(args.libpath):
                         error_log.write("       %s\n" % err)
                         TPL_TERMS['Saga_Cmd'] = "ERROR: %s" % err
                 if out and not details['needs_GUI']:
-                    usage = '\n'.join(out.split('\n')[16:])
-                    usage = re.sub("<","&lt;", usage)
+                    # extract module usage
+                    usage = []
+                    collect_usage = False
+                    for line in out.split('\n'):
+                        if line[:5] == "Usage":
+                            collect_usage = True
+                        if collect_usage:
+                            # fix missing lib_name and lib number for saga_cmd help prior to 2.1.3
+                            if not re.search('saga_cmd %s %s' % (lib_name,i), line):
+                                line = re.sub("saga_cmd", "saga_cmd %s %s" % (lib_name,i), line)
 
-                    # fix missing lib_name and lib number for saga_cmd help prior to 2.1.3
-                    if not re.search('saga_cmd %s %s' % (lib_name,i), usage):
-                        usage = re.sub("saga_cmd", "saga_cmd %s %s" % (lib_name,i), usage)
+                            # escape markup
+                            line = re.sub("<","&lt;", line)
 
-                    # mark command
-                    usage = re.sub('saga_cmd %s %s' % (lib_name,i),'<strong>saga_cmd %s %s</strong>' % (lib_name,i), usage)
+                            # mark command
+                            line = re.sub('saga_cmd %s %s' % (lib_name,i),'<strong>saga_cmd %s %s</strong>' % (lib_name,i), line)
 
-                    if usage[:5] != "Usage":
-                        error_log.write("NOTICE: saga_cmd %s %s has unknown usage string:\n%s\n\n" % (lib_name,i,usage))
-                        print "NOTICE: saga_cmd %s %s has unknown usage string. Please check." % (lib_name,i)
+                            # append line
+                            usage.append(line)
+
+                    if len(usage) == 0:
+                        error_log.write("WARNING: saga_cmd %s %s has no, or unknown usage string:\n%s\n\n" % (lib_name,i,usage))
+                        print "NOTICE: saga_cmd %s %s has no, or unknown usage string. Please check." % (lib_name,i)
                     TPL_TERMS['Saga_Cmd'] = "%s" % (
-                        usage
+                        '\n'.join(usage)
                     )
             else:
                 TPL_TERMS['Saga_Cmd'] = 'this interactive module can not be executed.'
