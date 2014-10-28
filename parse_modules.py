@@ -174,7 +174,7 @@ for fname in os.listdir(args.libpath):
         lib_name = util.lib_name_from_so('%s/%s' % (args.libpath,fname))
 
         # define library title as we will use it more than once
-        lib_title = util.cstr_2_str(lib_obj.Get_Name())
+        lib_title = '%s - %s' % (util.cstr_2_str(lib_obj.Get_Category()),util.cstr_2_str(lib_obj.Get_Name()) )
 
         # remember library details - see dir(lib_obj)
         libraries[lib_title] = {
