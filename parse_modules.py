@@ -200,7 +200,7 @@ for fname in os.listdir(args.libpath):
         modules = {}
         for i in range(0,libraries[lib_title]['Get_Count']):
             # load module
-            mod_obj = saga_api.SG_Get_Module_Library_Manager().Get_Module(lib_name, i)
+            mod_obj = saga_api.SG_Get_Module_Library_Manager().Get_Module(saga_api.CSG_String(lib_name), i) 
 
             # make sure that module is valid
             if not u'Get_Name' in dir(mod_obj):
