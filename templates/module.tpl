@@ -18,7 +18,6 @@
 <p>$Get_Description_HTML</p>
 <ul>
 <li>Author: $Get_Author</li>
-<li>Specification: $Specification</li>
 <li>Menu: $Full_Menu_Path</li>
 $WIKI_Link
 </ul>

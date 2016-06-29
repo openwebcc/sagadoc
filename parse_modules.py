@@ -264,16 +264,6 @@ for fname in os.listdir(args.libpath):
                 details['Full_Menu_Path']
             ))
 
-            # define module type
-            if details['is_Interactive'] and details['is_Grid']:
-                TPL_TERMS['Specification'] = "grid, interactive"
-            elif details['is_Interactive']:
-                TPL_TERMS['Specification'] = "interactive"
-            elif details['is_Grid']:
-                TPL_TERMS['Specification'] = "grid"
-            else:
-                pass    # nothing else for now
-
             # unload module
             mod_obj.Destroy()
 
