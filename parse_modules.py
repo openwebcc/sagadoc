@@ -380,7 +380,7 @@ for fname in os.listdir(args.libpath):
             TPL_TERMS['BACK_Text'] = lib_title
 
             # resolve tool template
-            s = Template(util.read_template('./templates/module.tpl'))
+            s = Template(util.read_template('./templates/tool.tpl'))
             o = open("%s/%s_%s.html" % (HTML_PATH,lib_name,i), "w")
             o.write(s.safe_substitute(TPL_TERMS).encode('utf8'))
             o.close()
