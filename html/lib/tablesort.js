@@ -7,7 +7,7 @@
 window.addEventListener("load", function () {
     var Sortable, tables, i, rows, cols, n;
 
-    // the module that does the work
+    // the tool that does the work
     Sortable = function () { }
     Sortable.prototype.init = function (table) {
         var lastHeader, rows;

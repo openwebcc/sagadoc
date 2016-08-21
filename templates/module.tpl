@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<title>Module $Get_Name / SAGA-GIS Module Library Documentation (v$VERSION)</title>
+<title>Tool $Get_Name / SAGA-GIS Tool Library Documentation (v$VERSION)</title>
 <link rel="stylesheet" href="./lib/styles.css">
 <header>
   <a href="http://saga-gis.org/"><img class="logo" src="./icons/logo.png" alt="Logo" /></a>
-  <h1>SAGA-GIS Module Library Documentation (v$VERSION)</h1>
+  <h1>SAGA-GIS Tool Library Documentation (v$VERSION)</h1>
   <nav>
-    <span class=" a2z"><a href="a2z.html">Modules A-Z</a></span>
+    <span class=" a2z"><a href="a2z.html">Tools A-Z</a></span>
     <span><a href="index.html">Contents</a></span>
     <span><a href="$BACK_Link">$BACK_Text</a></span>
   </nav>
 </header>
 
 <main>
-<h1>Module $Get_Name</h1>
+<h1>Tool $Get_Name</h1>
 <p>$Get_Description_HTML</p>
 <ul>
 <li>Author: $Get_Author</li>

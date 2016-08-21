@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<title>Library $Get_Name / SAGA-GIS Module Library Documentation (v$VERSION)</title>
+<title>Library $Get_Name / SAGA-GIS Tool Library Documentation (v$VERSION)</title>
 <link rel="stylesheet" href="./lib/styles.css">
 <header>
   <a href="http://saga-gis.org/"><img class="logo" src="./icons/logo.png" alt="Logo" /></a>
-  <h1>SAGA-GIS Module Library Documentation (v$VERSION)</h1>
+  <h1>SAGA-GIS Tool Library Documentation (v$VERSION)</h1>
   <nav>
-    <span class=" a2z"><a href="a2z.html">Modules A-Z</a></span>
+    <span class=" a2z"><a href="a2z.html">Tools A-Z</a></span>
     <span><a href="index.html">Contents</a></span>
   </nav>
 </header>
@@ -22,9 +22,9 @@
 $WIKI_Link
 </ul>
 
-<h3>Modules</h3>
+<h3>Tools</h3>
 <ul>
-$Module_Links
+$Tool_Links
 </ul>
 
 </main>

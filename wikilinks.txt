@@ -1,4 +1,4 @@
-MODULE	WIKI
+TOOL	WIKI
 grid_calculus	http://sourceforge.net/apps/trac/saga-gis/wiki/Grid - Calculus module library
 grid_tools	http://sourceforge.net/apps/trac/saga-gis/wiki/Grid - Tools module library
 ihacres	http://sourceforge.net/apps/trac/saga-gis/wiki/Module Library Hydrology
