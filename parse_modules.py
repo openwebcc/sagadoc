@@ -45,6 +45,17 @@ class Util():
         else:
             return u''
 
+    def toolreferences_2_str(self, value=None):
+        """ convert tool references (CSG_Strings array) to a HTML list and return Python str """
+        if value.Get_Count() > 0:
+            s = "<hr><h3><em>References</em></h3><ul>"
+            for i in range (0, value.Get_Count()):
+                s += ("<li>" + self.cstr_2_str(value.Get_String(i)) + "</li>")
+            s += "</ul><hr>"
+        else:
+            s = ""
+        return s
+
     def get_wikilinks(self):
         """ resolve known WIKI entries """
         links = {}
@@ -214,6 +225,7 @@ for fname in os.listdir(args.libpath):
             details = {
                 'Get_Author' : util.cstr_2_str(tool_obj.Get_Author()),
                 'Get_Description' : util.cstr_2_str(tool_obj.Get_Description()),
+                'Get_References' : util.toolreferences_2_str(tool_obj.Get_References()),
                 'Get_ID' : tool_obj.Get_ID(),
                 'Get_Icon' : tool_obj.Get_Icon(),
                 'Get_MenuPath' : util.cstr_2_str(tool_obj.Get_MenuPath()),
@@ -272,6 +284,8 @@ for fname in os.listdir(args.libpath):
             TPL_TERMS['Get_ID'] = details['Get_ID']
             TPL_TERMS['Get_Description'] = details['Get_Description']
             TPL_TERMS['Get_Description_HTML'] = details['Get_Description_HTML']
+            TPL_TERMS['Get_References'] = details['Get_References']
+
             TPL_TERMS['Full_Menu_Path'] = details['Full_Menu_Path']
             if args.debugjson:
                 TPL_TERMS['Debug_JSON'] = util.as_json(details)

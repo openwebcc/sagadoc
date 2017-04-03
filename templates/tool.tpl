@@ -16,6 +16,7 @@
 <main>
 <h1>Tool $Get_Name</h1>
 <p>$Get_Description_HTML</p>
+<p>$Get_References</p>
 <ul>
 <li>Author: $Get_Author</li>
 <li>Menu: $Full_Menu_Path</li>
