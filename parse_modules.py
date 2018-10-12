@@ -43,7 +43,7 @@ class Util():
                 print type(value.c_str())
                 return value.c_str().encode('utf8')
         else:
-            return u''
+            return ''
 
     def toolreferences_2_str(self, value=None):
         """ convert tool references (CSG_Strings array) to a HTML list and return Python str """
@@ -73,7 +73,7 @@ class Util():
             /usr/local/lib/saga/contrib_a_perego.so results in contrib_a_perego
             return libname as UTF-8 as SWIG might otherwise fail with TypeError: bad argument type for built-in operation
         """
-        return u'%s' % name.split('/')[-1][3:][:-3]
+        return '%s' % name.split('/')[-1][3:][:-3]
 
     def parse_parameters(self, tool_obj=None):
         """ parse SAGA parameters object and create python dictionary
@@ -213,7 +213,7 @@ for fname in os.listdir(args.libpath):
             tool_obj = saga_api.SG_Get_Tool_Library_Manager().Get_Tool(saga_api.CSG_String(lib_name), i) 
 
             # make sure that tool is valid
-            if not u'Get_Name' in dir(tool_obj):
+            if not 'Get_Name' in dir(tool_obj):
                 continue
 
             # skip tool if needed
