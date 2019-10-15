@@ -210,18 +210,19 @@ for fname in os.listdir(args.libpath):
         # loop through library tools and collect details
         for i in range(0,libraries[lib_title]['Get_Count']):
             # load tool
-            tool_obj = saga_api.SG_Get_Tool_Library_Manager().Get_Tool(saga_api.CSG_String(lib_name), i) 
+            tool_obj = lib_obj.Get_Tool(i)
+            tool_obj_id = tool_obj.Get_ID()
 
             # make sure that tool is valid
             if not 'Get_Name' in dir(tool_obj):
                 continue
 
             # skip tool if needed
-            if args.tool and "%s_%s" % (lib_name, i) != args.tool:
+            if args.tool and "%s_%s" % (lib_name, tool_obj_id.c_str()) != args.tool:
                 continue
 
             # remember tool details - see dir(tool_obj)
-            #print "DEBUG: %s_%s" % (lib_name, i)
+            #print "DEBUG: %s_%s" % (lib_name, tool_obj_id.c_str())
             details = {
                 'Get_Author' : util.cstr_2_str(tool_obj.Get_Author()),
                 'Get_Description' : util.cstr_2_str(tool_obj.Get_Description()),
@@ -253,7 +254,7 @@ for fname in os.listdir(args.libpath):
 
             # resolve WIKI link if any
             if wikilinks.has_key("%s_%s" % (lib_name,i)):
-                details['WIKI_Link'] = wikilinks["%s_%s" % (lib_name,i)]
+                details['WIKI_Link'] = wikilinks["%s_%s" % (lib_name,tool_obj_id.c_str())]
             else:
                 details['WIKI_Link'] = None
 
@@ -264,13 +265,13 @@ for fname in os.listdir(args.libpath):
             )
 
             # remember links to tool docs by title
-            libraries[lib_title]['doc_Links'][tool_title] = '%s_%s.html' % (lib_name, i)
+            libraries[lib_title]['doc_Links'][tool_title] = '%s_%s.html' % (lib_name, tool_obj_id.c_str())
 
             # fill a2z index, use list approach to ensure that duplicate tool names in different libraries don't get lost
             if not a2z.has_key(tool_title):
                 a2z[tool_title] = []
             a2z[tool_title].append('<tr><td><a href="%s">%s</a></td><td class="menuPath">%s</td></tr>' % (
-                '%s_%s.html' % (lib_name, i),
+                '%s_%s.html' % (lib_name, tool_obj_id.c_str()),
                 tool_title,
                 details['Full_Menu_Path']
             ))
@@ -348,15 +349,15 @@ for fname in os.listdir(args.libpath):
 
             # resolve saga_cmd usage for tools that do not need the GUI or are non-interactive
             if not details['is_Interactive']:
-                proc = subprocess.Popen(['saga_cmd', lib_name, str(i)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                proc = subprocess.Popen(['saga_cmd', lib_name, tool_obj_id.c_str()], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 out, err = proc.communicate()
                 if err:
                     if details['needs_GUI']:
                         # set GUI hint as cmd usage
                         TPL_TERMS['Saga_Cmd'] = re.sub('Error: ','',err)
                     else:
-                        print "ERROR: saga_cmd %s %s " % (lib_name,i)
-                        error_log.write("ERROR: saga_cmd %s %s\n" % (lib_name,i))
+                        print "ERROR: saga_cmd %s %s " % (lib_name,tool_obj_id.c_str())
+                        error_log.write("ERROR: saga_cmd %s %s\n" % (lib_name,tool_obj_id.c_str()))
                         error_log.write("       %s\n" % err)
                         TPL_TERMS['Saga_Cmd'] = "ERROR: %s" % err
                 if out and not details['needs_GUI']:
@@ -368,21 +369,21 @@ for fname in os.listdir(args.libpath):
                             collect_usage = True
                         if collect_usage:
                             # fix missing lib_name and lib number for saga_cmd help prior to 2.1.3
-                            if not re.search('saga_cmd %s %s' % (lib_name,i), line):
-                                line = re.sub("saga_cmd", "saga_cmd %s %s" % (lib_name,i), line)
+                            if not re.search('saga_cmd %s %s' % (lib_name,tool_obj_id.c_str()), line):
+                                line = re.sub("saga_cmd", "saga_cmd %s %s" % (lib_name,tool_obj_id.c_str()), line)
 
                             # escape markup
                             line = re.sub("<","&lt;", line)
 
                             # mark command
-                            line = re.sub('saga_cmd %s %s' % (lib_name,i),'<strong>saga_cmd %s %s</strong>' % (lib_name,i), line)
+                            line = re.sub('saga_cmd %s %s' % (lib_name,tool_obj_id.c_str()),'<strong>saga_cmd %s %s</strong>' % (lib_name,tool_obj_id.c_str()), line)
 
                             # append line
                             usage.append(line)
 
                     if len(usage) == 0:
-                        error_log.write("WARNING: saga_cmd %s %s has no, or unknown usage string:\n%s\n\n" % (lib_name,i,usage))
-                        print "NOTICE: saga_cmd %s %s has no, or unknown usage string. Please check." % (lib_name,i)
+                        error_log.write("WARNING: saga_cmd %s %s has no, or unknown usage string:\n%s\n\n" % (lib_name,tool_obj_id.c_str(),usage))
+                        print "NOTICE: saga_cmd %s %s has no, or unknown usage string. Please check." % (lib_name,tool_obj_id.c_str())
                     TPL_TERMS['Saga_Cmd'] = "%s" % (
                         '\n'.join(usage)
                     )
@@ -395,10 +396,10 @@ for fname in os.listdir(args.libpath):
 
             # resolve tool template
             s = Template(util.read_template('./templates/tool.tpl'))
-            o = open("%s/%s_%s.html" % (HTML_PATH,lib_name,i), "w")
+            o = open("%s/%s_%s.html" % (HTML_PATH,lib_name,tool_obj_id.c_str()), "w")
             o.write(s.safe_substitute(TPL_TERMS).encode('utf8'))
             o.close()
-            print "created %s/%s_%s.html" % (HTML_PATH,lib_name,i)
+            print "created %s/%s_%s.html" % (HTML_PATH,lib_name,tool_obj_id.c_str())
 
         # unload library
         saga_api.SG_Get_Tool_Library_Manager().Del_Library(0)
