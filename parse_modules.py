@@ -6,7 +6,7 @@
 import os
 import re
 import argparse
-import simplejson
+import json as simplejson
 import subprocess
 import saga_api
 import shutil
@@ -37,10 +37,10 @@ class Util():
     def cstr_2_str(self, value=None):
         """ return SWIG c_str value as Python str """
         if value:
-            if type(value.c_str()) == unicode:
+            if type(value.c_str()) == str:
                 return value.c_str()
             else:
-                print type(value.c_str())
+                print (type(value.c_str()))
                 return value.c_str().encode('utf8')
         else:
             return ''
@@ -93,7 +93,7 @@ class Util():
                 continue
 
             # make sure dictionary key is present
-            if not params.has_key(param_type):
+            if not param_type in params:
                 params[param_type] = []
 
             # see dir(tool_obj.Get_Parameters().Get_Parameter(0))
@@ -169,11 +169,11 @@ for fname in os.listdir(args.libpath):
         continue
 
     if fname[-3:] == '.so':
-        print 'parsing %s/%s ...' % (args.libpath,fname)
+        print('parsing {}/{} ...'.format(args.libpath,fname))
 
         # load library
         if args.skip and util.lib_name_from_so(fname) in args.skip.split(','):
-            print "SKIPPING library %s as requested ..." % util.lib_name_from_so(fname)
+            print('SKIPPING library {} as requested ...'.format(util.lib_name_from_so(fname)))
             continue
         else:
             saga_api.SG_Get_Tool_Library_Manager().Add_Library('%s/%s' % (args.libpath,fname))
@@ -202,7 +202,7 @@ for fname in os.listdir(args.libpath):
         }
 
         # resolve WIKI link if any
-        if wikilinks.has_key(lib_name):
+        if lib_name in wikilinks:
             libraries[lib_title]['WIKI_Link'] = wikilinks[lib_name]
         else:
             libraries[lib_title]['WIKI_Link'] = None
@@ -253,7 +253,7 @@ for fname in os.listdir(args.libpath):
                     details['Full_Menu_Path'] += "|%s" % details['Get_MenuPath']    # same as R: according to olaf
 
             # resolve WIKI link if any
-            if wikilinks.has_key("%s_%s" % (lib_name,i)):
+            if ("%s_%s" % (lib_name,i)) in wikilinks:
                 details['WIKI_Link'] = wikilinks["%s_%s" % (lib_name,tool_obj_id.c_str())]
             else:
                 details['WIKI_Link'] = None
@@ -268,7 +268,7 @@ for fname in os.listdir(args.libpath):
             libraries[lib_title]['doc_Links'][tool_title] = '%s_%s.html' % (lib_name, tool_obj_id.c_str())
 
             # fill a2z index, use list approach to ensure that duplicate tool names in different libraries don't get lost
-            if not a2z.has_key(tool_title):
+            if not tool_title in a2z:
                 a2z[tool_title] = []
             a2z[tool_title].append('<tr><td><a href="%s">%s</a></td><td class="menuPath">%s</td></tr>' % (
                 '%s_%s.html' % (lib_name, tool_obj_id.c_str()),
@@ -303,7 +303,7 @@ for fname in os.listdir(args.libpath):
             # define parameters
             has_optional = False
             for section in ["Input","Output","Options"]:
-                if details['Get_Parameters'].has_key(section):
+                if section in details['Get_Parameters']:
                     rows = []
                     section_column = None
                     for param in details['Get_Parameters'][section]:
@@ -349,14 +349,14 @@ for fname in os.listdir(args.libpath):
 
             # resolve saga_cmd usage for tools that do not need the GUI or are non-interactive
             if not details['is_Interactive']:
-                proc = subprocess.Popen(['saga_cmd', lib_name, tool_obj_id.c_str()], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                proc = subprocess.Popen(['saga_cmd', lib_name, tool_obj_id.c_str()], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
                 out, err = proc.communicate()
                 if err:
                     if details['needs_GUI']:
                         # set GUI hint as cmd usage
                         TPL_TERMS['Saga_Cmd'] = re.sub('Error: ','',err)
                     else:
-                        print "ERROR: saga_cmd %s %s " % (lib_name,tool_obj_id.c_str())
+                        print('ERROR: saga_cmd {} {} '.format(lib_name, tool_obj_id.c_str()))
                         error_log.write("ERROR: saga_cmd %s %s\n" % (lib_name,tool_obj_id.c_str()))
                         error_log.write("       %s\n" % err)
                         TPL_TERMS['Saga_Cmd'] = "ERROR: %s" % err
@@ -381,9 +381,9 @@ for fname in os.listdir(args.libpath):
                             # append line
                             usage.append(line)
 
-                    if len(usage) == 0:
+                    if not usage:
                         error_log.write("WARNING: saga_cmd %s %s has no, or unknown usage string:\n%s\n\n" % (lib_name,tool_obj_id.c_str(),usage))
-                        print "NOTICE: saga_cmd %s %s has no, or unknown usage string. Please check." % (lib_name,tool_obj_id.c_str())
+                        print('NOTICE: saga_cmd {} {} has no, or unknown usage string. Please check.'.format(lib_name, tool_obj_id.c_str()))
                     TPL_TERMS['Saga_Cmd'] = "%s" % (
                         '\n'.join(usage)
                     )
@@ -396,10 +396,10 @@ for fname in os.listdir(args.libpath):
 
             # resolve tool template
             s = Template(util.read_template('./templates/tool.tpl'))
-            o = open("%s/%s_%s.html" % (HTML_PATH,lib_name,tool_obj_id.c_str()), "w")
+            o = open("%s/%s_%s.html" % (HTML_PATH,lib_name,tool_obj_id.c_str()), "wb")
             o.write(s.safe_substitute(TPL_TERMS).encode('utf8'))
             o.close()
-            print "created %s/%s_%s.html" % (HTML_PATH,lib_name,tool_obj_id.c_str())
+            print('created {}/{}_{}.html'.format(HTML_PATH, lib_name, tool_obj_id.c_str()))
 
         # unload library
         saga_api.SG_Get_Tool_Library_Manager().Del_Library(0)
@@ -425,7 +425,7 @@ for fname in os.listdir(args.libpath):
             TPL_TERMS['WIKI_Link'] = ''
 
         # set links to tool pages
-        order = libraries[lib_title]['doc_Links'].keys()
+        order = list(libraries[lib_title]['doc_Links'].keys())
         order.sort()
         for tool_name in order:
             TPL_TERMS['Tool_Links'] += "<li><a href='%s'>%s</a></li>" % (
@@ -435,10 +435,10 @@ for fname in os.listdir(args.libpath):
 
         # resolve library template
         s = Template(util.read_template('./templates/library.tpl'))
-        o = open("%s/%s.html" % (HTML_PATH,lib_name), "w")
+        o = open("%s/%s.html" % (HTML_PATH,lib_name), "wb")
         o.write(s.safe_substitute(TPL_TERMS).encode('utf8'))
         o.close()
-        print "created %s/%s.html" % (HTML_PATH,lib_name)
+        print('created {}/{}.html'.format(HTML_PATH, lib_name))
 
 # create index page for libraries
 TPL_TERMS['Library_Links'] = ''
@@ -446,7 +446,7 @@ if args.debugjson:
     TPL_TERMS['Debug_JSON'] = util.as_json(libraries)
 
 # set links to library pages
-order = libraries.keys()
+order = list(libraries.keys())
 order.sort()
 for lib_name in order:
     TPL_TERMS['Library_Links'] += "<tr><td style='white-space: nowrap'><a href='%s'>%s</a></td><td>%s</td><td class='center'>%s</td></tr>" % (
@@ -458,28 +458,28 @@ for lib_name in order:
 
 # resolve startpage template
 s = Template(util.read_template('./templates/index.tpl'))
-o = open("%s/index.html" % (HTML_PATH), "w")
+o = open("%s/index.html" % (HTML_PATH), "wb")
 o.write(s.safe_substitute(TPL_TERMS).encode('utf8'))
 o.close()
-print "created %s/index.html" % (HTML_PATH)
+print('created {}/index.html'.format(HTML_PATH))
 
 # create a2z index page
 TPL_TERMS['A2Z_Links'] = ''
 
-order = a2z.keys()
+order = list(a2z.keys())
 order.sort()
 for name in order:
     TPL_TERMS['A2Z_Links'] += "%s\n" % ('\n'.join(a2z[name]))
 
 # resolve a2z template
 s = Template(util.read_template('./templates/a2z.tpl'))
-o = open("%s/a2z.html" % (HTML_PATH), "w")
+o = open("%s/a2z.html" % (HTML_PATH), "wb")
 o.write(s.safe_substitute(TPL_TERMS).encode('utf8'))
 o.close()
-print "created %s/a2z.html" % (HTML_PATH)
+print('created {}/a2z.html'.format(HTML_PATH))
 
 # copy lib/ and icons/ directories to html-path
-print "\ncopying ./html/lib/ and ./html/icons/ directory to %s ..." % HTML_PATH
+print('\ncopying ./html/lib/ and ./html/icons/ directory to {} ...'.format(HTML_PATH))
 for subdir in ('lib','icons'):
     shutil.rmtree("%s/%s" % (HTML_PATH,subdir), True)
     shutil.copytree("./html/%s" % subdir, "%s/%s" % (HTML_PATH,subdir))
@@ -490,9 +490,9 @@ error_log.close()
 debug_log.close()
 
 if has_errors:
-    print "\nlogged ERRORS to error_log.txt"
+    print('\nlogged ERRORS to error_log.txt')
 if has_debug:
-    print "\nlogged DEBUG messages to debug_log.txt"
+    print('\nlogged DEBUG messages to debug_log.txt')
 
 """
 
