@@ -8,6 +8,7 @@ import os
 if os.name == 'nt': # Windows
     if os.getenv('SAGA_PATH') is None:
         os.environ['SAGA_PATH'] = 'C:/develop/saga'                                     # SAGA installation path
+    os.add_dll_directory(os.environ['SAGA_PATH'])
     os.environ['SAGA_TLB'  ] = os.environ['SAGA_PATH'] + os.sep + 'tools'               # SAGA tool libraries path
     os.environ['PATH'      ] = os.environ['SAGA_PATH'] + os.sep +    ';' + os.environ['PATH']
     os.environ['PATH'      ] = os.environ['SAGA_PATH'] + os.sep + 'dll;' + os.environ['PATH']

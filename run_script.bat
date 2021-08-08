@@ -7,7 +7,7 @@
 
 
 REM directories to set:
-SET PYTHONINSTALL=C:\Users\vw\AppData\Local\Programs\Python\Python357
+SET PYTHONINSTALL=C:\Users\vw\AppData\Local\Programs\Python\Python39
 
 
 REM check argument
